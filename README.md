@@ -1,8 +1,6 @@
 # away
 A leave management system.
 
-The structure and the tedious elements of the application were generated using JHipster 5.2.1.
-
 ## Main goals
 This is a playground application to test and learn various software development techniques, covering mainly:
 
