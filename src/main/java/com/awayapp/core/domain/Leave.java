@@ -75,4 +75,13 @@ public class Leave {
                 ", end=" + end +
                 '}';
     }
+
+
+    public Leave(long id, Employee employee, LeaveType type, Instant start, Instant end) {
+        this.id = id;
+        this.employee = employee;
+        this.type = type;
+        this.start = start;
+        this.end = end;
+    }
 }

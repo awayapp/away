@@ -47,8 +47,8 @@ public class Employee {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private Instant hireDate;
 
-    @Column(name = "MAX_VACANTION_DAYS")
-    private int maxVacantionDays;
+    @Column(name = "MAX_VACATION_DAYS")
+    private int maxVacationDays;
 
     public long getId() {
         return id;
@@ -106,12 +106,23 @@ public class Employee {
         this.hireDate = hireDate;
     }
 
-    public int getMaxVacantionDays() {
-        return maxVacantionDays;
+    public int getMaxVacationDays() {
+        return maxVacationDays;
     }
 
-    public void setMaxVacantionDays(int maxVacantionDays) {
-        this.maxVacantionDays = maxVacantionDays;
+    public void setMaxVacationDays(int maxVacationDays) {
+        this.maxVacationDays = maxVacationDays;
+    }
+
+    public Employee() {
+    }
+
+    public Employee(long id, String firstName, String lastName, String email, int maxVacationDays) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.maxVacationDays = maxVacationDays;
     }
 
     @Override
@@ -124,7 +135,8 @@ public class Employee {
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
                 ", hireDate=" + hireDate +
-                ", maxVacantionDays=" + maxVacantionDays +
+                ", maxVacationDays=" + maxVacationDays +
                 '}';
     }
+
 }
