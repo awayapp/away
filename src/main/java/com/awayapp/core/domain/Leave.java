@@ -1,16 +1,25 @@
 package com.awayapp.core.domain;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import java.time.Instant;
 
 @Entity
-@Table(name="LEAVE")
+@Table(name = "LEAVE")
 public class Leave {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="ID")
-    private long id;
+    @Column(name = "ID")
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "EMPLOYEE_ID")
@@ -19,17 +28,17 @@ public class Leave {
     @Enumerated(EnumType.STRING)
     private LeaveType type;
 
-    @Column(name="START")
+    @Column(name = "START")
     private Instant start;
 
-    @Column(name="END")
+    @Column(name = "END")
     private Instant end;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -76,8 +85,10 @@ public class Leave {
                 '}';
     }
 
+    public Leave() {
+    }
 
-    public Leave(long id, Employee employee, LeaveType type, Instant start, Instant end) {
+    public Leave(Long id, Employee employee, LeaveType type, Instant start, Instant end) {
         this.id = id;
         this.employee = employee;
         this.type = type;

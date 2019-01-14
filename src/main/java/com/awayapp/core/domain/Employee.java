@@ -33,12 +33,12 @@ public class Employee {
     private Instant hireDate;
 
     @Column(name = "MAX_VACATION_DAYS")
-    private int maxVacationDays;
+    private Integer maxVacationDays;
 
     public Employee() {
     }
 
-    public Employee(long id, String firstName, String lastName, String email, int maxVacationDays) {
+    public Employee(Long id, String firstName, String lastName, String email, Integer maxVacationDays) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -90,7 +90,7 @@ public class Employee {
         return maxVacationDays;
     }
 
-    public void setMaxVacationDays(int maxVacationDays) {
+    public void setMaxVacationDays(Integer maxVacationDays) {
         this.maxVacationDays = maxVacationDays;
     }
 

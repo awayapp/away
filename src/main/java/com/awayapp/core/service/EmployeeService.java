@@ -1,21 +1,29 @@
 package com.awayapp.core.service;
 
 import com.awayapp.core.domain.Employee;
+import com.awayapp.core.repository.EmployeeRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 @Service
 public class EmployeeService {
 
-    private Map<Long, Employee> database = new HashMap<>();
+    private final EmployeeRepository employeeRepository;
 
-    public void save(final Employee employee) {
-        database.put(employee.getId(), employee);
+    public EmployeeService(final EmployeeRepository employeeRepository) {
+        this.employeeRepository = employeeRepository;
     }
 
-    public Employee get(final Long id) {
-        return database.get(id);
+    public Employee findEmployeeById(Long id) {
+        return employeeRepository.findById(id).get();
+    }
+
+    public List<Employee> findAllEmployees() {
+        return employeeRepository.findAll();
+    }
+
+    public Employee saveEmployee(Employee employee) {
+        return employeeRepository.save(employee);
     }
 }
