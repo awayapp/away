@@ -24,8 +24,8 @@ public class LeaveMapper {
         entity.setId(dto.getId());
         entity.setEmployee(employeeService.findEmployeeById(dto.getEmployeeId()));
         entity.setType(dto.getType());
-        entity.setStart(Instant.parse(dto.getStart())); //DONE George
-        entity.setEnd(Instant.parse(dto.getEnd()));//DONE George
+        entity.setLeaveStart(Instant.parse(dto.getStart()));
+        entity.setLeaveEnd(Instant.parse(dto.getEnd()));
 
         return entity;
     }
@@ -39,8 +39,8 @@ public class LeaveMapper {
         dto.setId(entity.getId());
         dto.setEmployeeId(entity.getEmployee().getId());
         dto.setType(entity.getType());
-        dto.setStart(entity.getStart().toString());//DONE George
-        dto.setEnd(entity.getEnd().toString());//DONE George
+        dto.setStart(entity.getLeaveStart().toString());
+        dto.setEnd(entity.getLeaveEnd().toString());
 
         return dto;
     }

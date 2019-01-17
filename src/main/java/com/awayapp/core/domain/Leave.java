@@ -28,11 +28,11 @@ public class Leave {
     @Enumerated(EnumType.STRING)
     private LeaveType type;
 
-    @Column(name = "START")
-    private Instant start;
+    @Column(name = "LEAVE_START")
+    private Instant leaveStart;
 
-    @Column(name = "END")
-    private Instant end;
+    @Column(name = "LEAVE_END")
+    private Instant leaveEnd;
 
     public Long getId() {
         return id;
@@ -58,20 +58,20 @@ public class Leave {
         this.type = type;
     }
 
-    public Instant getStart() {
-        return start;
+    public Instant getLeaveStart() {
+        return leaveStart;
     }
 
-    public void setStart(Instant start) {
-        this.start = start;
+    public void setLeaveStart(Instant leaveStart) {
+        this.leaveStart = leaveStart;
     }
 
-    public Instant getEnd() {
-        return end;
+    public Instant getLeaveEnd() {
+        return leaveEnd;
     }
 
-    public void setEnd(Instant end) {
-        this.end = end;
+    public void setLeaveEnd(Instant leaveEnd) {
+        this.leaveEnd = leaveEnd;
     }
 
     @Override
@@ -80,19 +80,19 @@ public class Leave {
                 "id=" + id +
                 ", employee=" + employee +
                 ", type=" + type +
-                ", start=" + start +
-                ", end=" + end +
+                ", leaveStart=" + leaveStart +
+                ", leaveEnd=" + leaveEnd +
                 '}';
     }
 
     public Leave() {
     }
 
-    public Leave(Long id, Employee employee, LeaveType type, Instant start, Instant end) {
+    public Leave(Long id, Employee employee, LeaveType type, Instant leaveStart, Instant leaveEnd) {
         this.id = id;
         this.employee = employee;
         this.type = type;
-        this.start = start;
-        this.end = end;
+        this.leaveStart = leaveStart;
+        this.leaveEnd = leaveEnd;
     }
 }
