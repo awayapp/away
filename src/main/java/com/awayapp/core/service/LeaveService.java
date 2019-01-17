@@ -1,7 +1,6 @@
 package com.awayapp.core.service;
 
 import com.awayapp.core.controller.dto.LeaveDTO;
-import com.awayapp.core.domain.Employee;
 import com.awayapp.core.domain.Leave;
 import com.awayapp.core.repository.LeaveRepository;
 import org.springframework.stereotype.Service;
@@ -20,9 +19,6 @@ public class LeaveService {
         this.leaveMapper = leaveMapper;
     }
 
-    public List<Leave> findAllLeavesByEmployee(Employee employee) {
-        return null;
-    }
 
     @Transactional
     public LeaveDTO saveLeave(LeaveDTO leaveDTO) {
@@ -31,4 +27,10 @@ public class LeaveService {
 
         return leaveMapper.toDto(leaveRepository.save(leave));
     }
+
+    public List<Leave> findAllLeaves() {
+
+        return leaveRepository.findAll();
+    }
+
 }

@@ -4,6 +4,8 @@ import com.awayapp.core.controller.dto.LeaveDTO;
 import com.awayapp.core.domain.Leave;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
+
 @Component
 public class LeaveMapper {
 
@@ -13,7 +15,7 @@ public class LeaveMapper {
         this.employeeService = employeeService;
     }
 
-    public Leave toEntity(final LeaveDTO dto) {
+    Leave toEntity(final LeaveDTO dto) {
         if (dto == null) {
             return null;
         }
@@ -22,13 +24,13 @@ public class LeaveMapper {
         entity.setId(dto.getId());
         entity.setEmployee(employeeService.findEmployeeById(dto.getEmployeeId()));
         entity.setType(dto.getType());
-//        entity.setStart(dto.getStart());//TODO George
-//        entity.setEnd(dto.getEnd());//TODO George
+        entity.setStart(Instant.parse(dto.getStart())); //DONE George
+        entity.setEnd(Instant.parse(dto.getEnd()));//DONE George
 
         return entity;
     }
 
-    public LeaveDTO toDto(final Leave entity) {
+    LeaveDTO toDto(final Leave entity) {
         if (entity == null) {
             return null;
         }
@@ -37,8 +39,8 @@ public class LeaveMapper {
         dto.setId(entity.getId());
         dto.setEmployeeId(entity.getEmployee().getId());
         dto.setType(entity.getType());
-//        dto.setStart(entity.getStart());//TODO George
-//        dto.setEnd(entity.getEnd());//TODO George
+        dto.setStart(entity.getStart().toString());//DONE George
+        dto.setEnd(entity.getEnd().toString());//DONE George
 
         return dto;
     }
