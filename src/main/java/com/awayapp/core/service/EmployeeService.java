@@ -2,6 +2,7 @@ package com.awayapp.core.service;
 
 import com.awayapp.core.domain.Employee;
 import com.awayapp.core.repository.EmployeeRepository;
+import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,6 +25,13 @@ public class EmployeeService {
     }
 
     public Employee saveEmployee(Employee employee) {
+        if (!isValidEmail(employee)) throw new RuntimeException("Please insert a valid Email address!");
         return employeeRepository.save(employee);
     }
+
+    private Boolean isValidEmail(Employee employee) {
+        EmailValidator validator = EmailValidator.getInstance();
+        return validator.isValid(employee.getEmail());
+    }
+
 }
