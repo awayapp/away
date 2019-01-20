@@ -25,7 +25,8 @@ public class EmployeeService {
     }
 
     public Employee saveEmployee(Employee employee) {
-        if (!isValidEmail(employee)) throw new RuntimeException("Please insert a valid Email address!");
+        if (!isValidEmail(employee))
+            throw new RuntimeException("Please insert a valid Email address!");
         return employeeRepository.save(employee);
     }
 
