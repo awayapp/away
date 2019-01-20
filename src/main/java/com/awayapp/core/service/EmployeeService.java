@@ -16,7 +16,7 @@ public class EmployeeService {
         this.employeeRepository = employeeRepository;
     }
 
-    public Employee findEmployeeById(Long id) {
+    public Employee findEmployeeById(final Long id) {
         return employeeRepository.findById(id).get();
     }
 
@@ -24,13 +24,14 @@ public class EmployeeService {
         return employeeRepository.findAll();
     }
 
-    public Employee saveEmployee(Employee employee) {
-        if (!isValidEmail(employee))
+    public Employee saveEmployee(final Employee employee) {
+        if (!isValidEmail(employee)) {
             throw new RuntimeException("Please insert a valid Email address!");
+        }
         return employeeRepository.save(employee);
     }
 
-    private Boolean isValidEmail(Employee employee) {
+    private Boolean isValidEmail(final Employee employee) {
         EmailValidator validator = EmailValidator.getInstance();
         return validator.isValid(employee.getEmail());
     }

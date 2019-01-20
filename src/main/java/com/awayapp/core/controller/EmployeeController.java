@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-
 @RestController
 @RequestMapping(EmployeeController.BASE_URL)
 public class EmployeeController {
@@ -22,7 +21,7 @@ public class EmployeeController {
     private final EmployeeService employeeService;
 
     @Autowired
-    public EmployeeController(EmployeeService employeeService) {
+    public EmployeeController(final EmployeeService employeeService) {
         this.employeeService = employeeService;
     }
 
@@ -32,12 +31,12 @@ public class EmployeeController {
     }
 
     @GetMapping("/{id}")
-    public Employee getEmployeeById(@PathVariable Long id) {
+    public Employee getEmployeeById(@PathVariable final Long id) {
         return employeeService.findEmployeeById(id);
     }
 
     @PostMapping
-    public Employee saveEmployee(@RequestBody Employee employee) {
+    public Employee saveEmployee(@RequestBody final Employee employee) {
         return employeeService.saveEmployee(employee);
     }
 }
