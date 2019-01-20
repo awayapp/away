@@ -1,13 +1,14 @@
-package com.awayapp.core.service;
+package com.awayapp.core.service.mapper;
 
 import com.awayapp.core.controller.dto.LeaveDTO;
 import com.awayapp.core.domain.Leave;
+import com.awayapp.core.service.EmployeeService;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
 
 @Component
-public class LeaveMapper {
+public class LeaveMapper extends AbstractMapper<Leave, LeaveDTO> {
 
     private final EmployeeService employeeService;
 
@@ -15,7 +16,8 @@ public class LeaveMapper {
         this.employeeService = employeeService;
     }
 
-    Leave toEntity(final LeaveDTO dto) {
+    @Override
+    public Leave toEntity(final LeaveDTO dto) {
         if (dto == null) {
             return null;
         }
@@ -30,7 +32,8 @@ public class LeaveMapper {
         return entity;
     }
 
-    LeaveDTO toDto(final Leave entity) {
+    @Override
+    public LeaveDTO toDto(final Leave entity) {
         if (entity == null) {
             return null;
         }

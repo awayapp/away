@@ -2,6 +2,7 @@ package com.awayapp.core.service;
 
 import com.awayapp.core.controller.dto.LeaveDTO;
 import com.awayapp.core.domain.Leave;
+import com.awayapp.core.service.mapper.LeaveMapper;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;

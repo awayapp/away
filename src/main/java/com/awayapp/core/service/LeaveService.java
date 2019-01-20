@@ -3,6 +3,7 @@ package com.awayapp.core.service;
 import com.awayapp.core.controller.dto.LeaveDTO;
 import com.awayapp.core.domain.Leave;
 import com.awayapp.core.repository.LeaveRepository;
+import com.awayapp.core.service.mapper.LeaveMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

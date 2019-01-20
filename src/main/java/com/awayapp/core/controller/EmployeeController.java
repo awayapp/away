@@ -1,5 +1,6 @@
 package com.awayapp.core.controller;
 
+import com.awayapp.core.controller.dto.EmployeeDTO;
 import com.awayapp.core.domain.Employee;
 import com.awayapp.core.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,17 +27,18 @@ public class EmployeeController {
     }
 
     @GetMapping
-    public List<Employee> getAllEmployees() {
+    public List<EmployeeDTO> getAllEmployees() {
         return employeeService.findAllEmployees();
     }
 
     @GetMapping("/{id}")
-    public Employee getEmployeeById(@PathVariable final Long id) {
+    public EmployeeDTO getEmployeeById(@PathVariable final Long id) {
         return employeeService.findEmployeeById(id);
     }
 
     @PostMapping
-    public Employee saveEmployee(@RequestBody final Employee employee) {
+    public EmployeeDTO saveEmployee(@RequestBody final EmployeeDTO employee) {
         return employeeService.saveEmployee(employee);
+
     }
 }
