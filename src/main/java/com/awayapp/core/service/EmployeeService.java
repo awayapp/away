@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EmployeeService {
@@ -23,8 +24,8 @@ public class EmployeeService {
         this.employeeMapper = employeeMapper;
     }
 
-    public EmployeeDTO findEmployeeById(final Long id) {
-        return employeeMapper.toDto(employeeRepository.findById(id).get());
+    public Optional<EmployeeDTO> findEmployeeById(final Long id) {
+        return employeeRepository.findById(id).map(employeeMapper::toDto);
     }
 
     public List<EmployeeDTO> findAllEmployees() {
