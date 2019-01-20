@@ -39,8 +39,8 @@ public class LeaveService {
         return leaveMapper.toDto(leaveRepository.save(leave));
     }
 
-    public List<Leave> findAllLeaves() {
-        return leaveRepository.findAll();
+    public List<LeaveDTO> findAllLeaves() {
+        return leaveMapper.toDtos(leaveRepository.findAll());
     }
 
     private Boolean isValidStartEnd(Leave leave) {

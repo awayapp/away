@@ -17,12 +17,13 @@ public class MaxVacationDaysValdidationService {
     private final LeaveMapper leaveMapper;
 
     public Boolean isLeavePossible(LeaveDTO leaveDTO) {
-        Leave leave = leaveMapper.toEntity(leaveDTO);
-
-        Integer soldVacationDays = leave.getEmployee().getMaxVacationDays();
-
-        Duration duration = Duration.between(leave.getLeaveStart(), leave.getLeaveEnd()).minusDays(soldVacationDays);
-        return !duration.isNegative();
+        return true;
+//        Leave leave = leaveMapper.toEntity(leaveDTO);
+//
+//        Integer soldVacationDays = leave.getEmployee().getMaxVacationDays();
+//
+//        Duration duration = Duration.between(leave.getLeaveStart(), leave.getLeaveEnd()).minusDays(soldVacationDays);
+//        return !duration.isNegative();
     }
 
 /*

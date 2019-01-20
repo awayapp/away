@@ -31,7 +31,7 @@ public class LeaveController {
     }
 
     @GetMapping
-    public List<Leave> getAllLeaves() {
+    public List<LeaveDTO> getAllLeaves() {
         return leaveService.findAllLeaves();
     }
 

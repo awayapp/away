@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.time.Instant;
+import java.util.Objects;
 
 @Entity
 @Table(name = "EMPLOYEE")
@@ -36,6 +37,10 @@ public class Employee {
     private Integer maxVacationDays;
 
     public Employee() {
+    }
+
+    public Employee(Long id) {
+        this.id = id;
     }
 
     public Employee(Long id, String firstName, String lastName, String email, Integer maxVacationDays) {
@@ -92,6 +97,21 @@ public class Employee {
 
     public void setMaxVacationDays(Integer maxVacationDays) {
         this.maxVacationDays = maxVacationDays;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) return true;
+        if (other == null || getClass() != other.getClass()) return false;
+
+        Employee employee = (Employee) other;
+
+        return Objects.equals(this.id, employee.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
     }
 
     @Override

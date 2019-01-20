@@ -5,8 +5,6 @@ import com.awayapp.core.domain.Employee;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
 
 @Component
 public class EmployeeMapper extends AbstractMapper<Employee, EmployeeDTO> {

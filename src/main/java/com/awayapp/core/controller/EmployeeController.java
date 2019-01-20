@@ -1,7 +1,6 @@
 package com.awayapp.core.controller;
 
 import com.awayapp.core.controller.dto.EmployeeDTO;
-import com.awayapp.core.domain.Employee;
 import com.awayapp.core.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
