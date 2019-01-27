@@ -8,6 +8,7 @@ import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,6 +41,10 @@ public class EmployeeService {
         }
 
         return employeeMapper.toDto(employeeRepository.save(employee));
+    }
+
+    public Integer getVacationDaysAllowedAt(final Instant start, final Employee employee) {
+        throw new UnsupportedOperationException();
     }
 
     private Boolean isValidEmail(final Employee employee) {
