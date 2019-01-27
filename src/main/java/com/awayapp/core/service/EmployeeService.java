@@ -9,8 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.time.Year;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
+
+import static java.time.ZoneOffset.UTC;
+import static java.time.temporal.ChronoUnit.DAYS;
 
 @Service
 public class EmployeeService {
@@ -43,8 +48,10 @@ public class EmployeeService {
         return employeeMapper.toDto(employeeRepository.save(employee));
     }
 
-    public Integer getVacationDaysAllowedAt(final Instant start, final Employee employee) {
-        throw new UnsupportedOperationException();
+    public Long getVacationDaysAllowedAt(final Instant start, final Employee employee) {
+        int year = ZonedDateTime.ofInstant(start, UTC).getYear();
+        int daysInYear = Year.of(year).length();
+        return DAYS.between(employee.getHireDate(), start) * (employee.getMaxVacationDays() / daysInYear);
     }
 
     private Boolean isValidEmail(final Employee employee) {

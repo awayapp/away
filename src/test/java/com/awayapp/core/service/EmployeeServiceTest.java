@@ -28,12 +28,13 @@ public class EmployeeServiceTest {
         Instant hireDate = getInstantAt(2019, 1, 1);
         Employee employee = new Employee();
         employee.setHireDate(hireDate);
+        employee.setMaxVacationDays(30);
 
         //when
-        Integer vacationDaysAllowed = employeeService.getVacationDaysAllowedAt(start, employee);
+        Long vacationDaysAllowed = employeeService.getVacationDaysAllowedAt(start, employee);
 
         //then
-        assertEquals(Integer.valueOf(0), vacationDaysAllowed);
+        assertEquals(Long.valueOf(0), vacationDaysAllowed);
     }
 
     private Instant getInstantAt(int year, int month, int day) {
