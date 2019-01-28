@@ -48,18 +48,6 @@ public class EmployeeService {
         return employeeMapper.toDto(employeeRepository.save(employee));
     }
 
-    public Long getVacationDaysAllowedAt(final Instant start, final Employee employee) {
-        int year = ZonedDateTime.ofInstant(start, UTC).getYear();
-        int daysInYear = Year.of(year).length();
-
-        double dailyVacationMultiplier = (double) employee.getMaxVacationDays() / (double) daysInYear;
-        double daysSinceHire = (double) DAYS.between(employee.getHireDate(), start);
-
-        double result = daysSinceHire * dailyVacationMultiplier;
-
-        return (long) Math.ceil(result);
-    }
-
     private Boolean isValidEmail(final Employee employee) {
         EmailValidator validator = EmailValidator.getInstance();
         return validator.isValid(employee.getEmail());

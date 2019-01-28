@@ -1,6 +1,7 @@
 package com.awayapp.core.service;
 
 import com.awayapp.core.controller.dto.LeaveDTO;
+import com.awayapp.core.domain.Employee;
 import com.awayapp.core.domain.Leave;
 import com.awayapp.core.repository.LeaveRepository;
 import com.awayapp.core.service.mapper.LeaveMapper;
@@ -8,7 +9,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
+import java.time.Instant;
+import java.time.Year;
+import java.time.ZonedDateTime;
 import java.util.List;
+
+import static java.time.ZoneOffset.UTC;
+import static java.time.temporal.ChronoUnit.DAYS;
 
 @Service
 public class LeaveService {
@@ -41,6 +48,18 @@ public class LeaveService {
 
     public List<LeaveDTO> findAllLeaves() {
         return leaveMapper.toDtos(leaveRepository.findAll());
+    }
+
+    public Long getVacationDaysAllowedAt(final Instant start, final Employee employee) {
+        int year = ZonedDateTime.ofInstant(start, UTC).getYear();
+        int daysInYear = Year.of(year).length();
+
+        double dailyVacationMultiplier = (double) employee.getMaxVacationDays() / (double) daysInYear;
+        double daysSinceHire = (double) DAYS.between(employee.getHireDate(), start);
+
+        double result = daysSinceHire * dailyVacationMultiplier;
+
+        return (long) Math.ceil(result);
     }
 
     private Boolean isValidStartEnd(Leave leave) {

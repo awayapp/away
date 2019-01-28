@@ -10,14 +10,14 @@ import java.time.ZoneOffset;
 
 import static org.junit.Assert.assertEquals;
 
-public class EmployeeServiceTest {
+public class VacationDaysAllowedTest {
 
     //Subject under test
-    private EmployeeService employeeService;
+    private LeaveService leaveService;
 
     @Before
     public void setup() {
-        employeeService = new EmployeeService(null, null);
+        leaveService = new LeaveService(null, null, null);
     }
 
     @Test
@@ -27,7 +27,7 @@ public class EmployeeServiceTest {
         Employee employee = getEmployee(2019, 1, 1, 30);
 
         //when
-        Long vacationDaysAllowed = employeeService.getVacationDaysAllowedAt(start, employee);
+        Long vacationDaysAllowed = leaveService.getVacationDaysAllowedAt(start, employee);
 
         //then
         assertEquals(Long.valueOf(0), vacationDaysAllowed);
@@ -41,10 +41,24 @@ public class EmployeeServiceTest {
         Employee employee = getEmployee(2019, 1, 1, 30);
 
         //when
-        Long vacationDaysAllowed = employeeService.getVacationDaysAllowedAt(start, employee);
+        Long vacationDaysAllowed = leaveService.getVacationDaysAllowedAt(start, employee);
 
         //then
         assertEquals(Long.valueOf(employee.getMaxVacationDays()), vacationDaysAllowed);
+    }
+
+    @Test
+    public void getVacationDaysAllowedAt_July1_hireDay0_3vacationsAlready_shouldReturn12() {
+        //given
+        Instant start = getInstantAt(2019, 7, 1);
+        Employee employee = getEmployee(2019, 1, 1, 30);
+
+        //when
+        Long vacationDaysAllowed = leaveService.getVacationDaysAllowedAt(start, employee);
+
+        //then
+        assertEquals(Long.valueOf(12), vacationDaysAllowed);
+
     }
 
     private Employee getEmployee(int hireYear, int hireMonth, int hireDay, int maxVacationDays) {
