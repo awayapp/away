@@ -51,7 +51,13 @@ public class EmployeeService {
     public Long getVacationDaysAllowedAt(final Instant start, final Employee employee) {
         int year = ZonedDateTime.ofInstant(start, UTC).getYear();
         int daysInYear = Year.of(year).length();
-        return DAYS.between(employee.getHireDate(), start) * (employee.getMaxVacationDays() / daysInYear);
+
+        double dailyVacationMultiplier = (double) employee.getMaxVacationDays() / (double) daysInYear;
+        double daysSinceHire = (double) DAYS.between(employee.getHireDate(), start);
+
+        double result = daysSinceHire * dailyVacationMultiplier;
+
+        return (long) Math.ceil(result);
     }
 
     private Boolean isValidEmail(final Employee employee) {

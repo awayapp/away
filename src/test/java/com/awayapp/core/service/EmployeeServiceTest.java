@@ -24,17 +24,35 @@ public class EmployeeServiceTest {
     public void getVacationDaysAllowedAt_day0_hireDay0_shouldReturn0() {
         //given
         Instant start = getInstantAt(2019, 1, 1);
-
-        Instant hireDate = getInstantAt(2019, 1, 1);
-        Employee employee = new Employee();
-        employee.setHireDate(hireDate);
-        employee.setMaxVacationDays(30);
+        Employee employee = getEmployee(2019, 1, 1, 30);
 
         //when
         Long vacationDaysAllowed = employeeService.getVacationDaysAllowedAt(start, employee);
 
         //then
         assertEquals(Long.valueOf(0), vacationDaysAllowed);
+    }
+
+
+    @Test
+    public void getVacationDaysAllowedAt_day365_hireDay0_shouldReturnMaxVacationDays() {
+        //given
+        Instant start = getInstantAt(2019, 12, 31);
+        Employee employee = getEmployee(2019, 1, 1, 30);
+
+        //when
+        Long vacationDaysAllowed = employeeService.getVacationDaysAllowedAt(start, employee);
+
+        //then
+        assertEquals(Long.valueOf(employee.getMaxVacationDays()), vacationDaysAllowed);
+    }
+
+    private Employee getEmployee(int hireYear, int hireMonth, int hireDay, int maxVacationDays) {
+        Instant hireDate = getInstantAt(hireYear, hireMonth, hireDay);
+        Employee employee = new Employee();
+        employee.setHireDate(hireDate);
+        employee.setMaxVacationDays(maxVacationDays);
+        return employee;
     }
 
     private Instant getInstantAt(int year, int month, int day) {
