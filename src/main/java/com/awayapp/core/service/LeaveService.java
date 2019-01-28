@@ -5,6 +5,7 @@ import com.awayapp.core.domain.Employee;
 import com.awayapp.core.domain.Leave;
 import com.awayapp.core.repository.LeaveRepository;
 import com.awayapp.core.service.mapper.LeaveMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +25,7 @@ public class LeaveService {
     private final LeaveMapper leaveMapper;
     private final MaxVacationDaysValdidationService maxVacationDaysValdidationService;
 
+    @Autowired
     public LeaveService(final LeaveRepository leaveRepository, final LeaveMapper leaveMapper,
                         final MaxVacationDaysValdidationService maxVacationDaysValdidationService) {
         this.leaveRepository = leaveRepository;
@@ -54,13 +56,26 @@ public class LeaveService {
         int year = ZonedDateTime.ofInstant(start, UTC).getYear();
         int daysInYear = Year.of(year).length();
 
-        double dailyVacationMultiplier = (double) employee.getMaxVacationDays() / (double) daysInYear;
+        double vacationDaysProducedPerDay = (double) employee.getMaxVacationDays() / (double) daysInYear;
         double daysSinceHire = (double) DAYS.between(employee.getHireDate(), start);
 
-        double result = daysSinceHire * dailyVacationMultiplier;
+        long maxVacationDays = (long) Math.ceil(daysSinceHire * vacationDaysProducedPerDay);
+        long vacationDaysTaken = getLeaveDaysUntil(start, employee);
 
-        return (long) Math.ceil(result);
+        return maxVacationDays - vacationDaysTaken;
     }
+
+    private Long getLeaveDaysUntil(final Instant until, final Employee employee) {
+        // Query the DB and get all Leaves that are taken before the 'until' date
+        List<Leave> leaves = leaveRepository.findByEmployeeAndLeaveEndBefore(employee, until);
+
+        // Iterate over these Leaves and sum up their number of vacation days, in-memory
+        return leaves
+                .stream()
+                .mapToLong(l -> DAYS.between(l.getLeaveStart(), l.getLeaveEnd()) + 1)
+                .sum();
+    }
+
 
     private Boolean isValidStartEnd(Leave leave) {
         return (!Duration.between(leave.getLeaveStart(), leave.getLeaveEnd()).isNegative());
