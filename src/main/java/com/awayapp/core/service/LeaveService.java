@@ -52,7 +52,9 @@ public class LeaveService {
 
     @VisibleForTesting
     Long getVacationDaysAllowedAt(final Instant start, final Employee employee) {
+
         logger.info("Getting MaxVacationDays Allowed for " + employee.getEmail());
+
         int year = ZonedDateTime.ofInstant(start, UTC).getYear();
         int daysInYear = Year.of(year).length();
 

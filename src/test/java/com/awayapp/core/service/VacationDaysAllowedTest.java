@@ -65,6 +65,7 @@ public class VacationDaysAllowedTest {
         assertEquals(Long.valueOf(employee.getMaxVacationDays()), vacationDaysAllowed);
     }
 
+
     @Test
     public void getVacationDaysAllowedAt_July1_hireDay0_3vacationsAlready_shouldReturn12() {
         //given
@@ -96,6 +97,33 @@ public class VacationDaysAllowedTest {
 
         //then
         assertEquals(Long.valueOf(12), vacationDaysAllowed);
+    }
+
+
+    @Test
+    public void getVacationDaysAllowedAt_Sep10_hireDay115_shouldReturn12() {
+        //given
+        Instant start = getInstantAt(2019, 9, 10);
+        Employee employee = getEmployee(2019, 4, 25, 30);
+
+        //when
+        Long vacationDaysAllowed = leaveService.getVacationDaysAllowedAt(start, employee);
+
+        //then
+        assertEquals(Long.valueOf(12), vacationDaysAllowed);
+    }
+
+    @Test
+    public void getVacationDaysAllowedAt_Day365_hireDay115_shouldReturn21() {
+        //given
+        Instant start = getInstantAt(2019, 12, 31);
+        Employee employee = getEmployee(2019, 4, 25, 30);
+
+        //when
+        Long vacationDaysAllowed = leaveService.getVacationDaysAllowedAt(start, employee);
+
+        //then
+        assertEquals(Long.valueOf(21), vacationDaysAllowed);
     }
 
     private Employee getEmployee(int hireYear, int hireMonth, int hireDay, int maxVacationDays) {
