@@ -4,6 +4,7 @@ import com.awayapp.core.domain.Employee;
 import com.awayapp.core.domain.Leave;
 import com.awayapp.core.domain.LeaveType;
 import com.awayapp.core.repository.LeaveRepository;
+import com.awayapp.core.service.mapper.LeaveMapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,7 +15,6 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -30,9 +30,12 @@ public class VacationDaysAllowedTest {
     @Mock
     private LeaveRepository leaveRepository;
 
+    @Mock
+    private LeaveMapper leaveMapper;
+
     @Before
     public void setup() {
-        leaveService = new LeaveService(leaveRepository, null, null);
+        leaveService = new LeaveService(leaveRepository, leaveMapper);
     }
 
     @Test
@@ -100,6 +103,7 @@ public class VacationDaysAllowedTest {
         Employee employee = new Employee();
         employee.setHireDate(hireDate);
         employee.setMaxVacationDays(maxVacationDays);
+        employee.setEmail("default@default.test");
         return employee;
     }
 

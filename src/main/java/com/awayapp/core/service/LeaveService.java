@@ -5,6 +5,9 @@ import com.awayapp.core.domain.Employee;
 import com.awayapp.core.domain.Leave;
 import com.awayapp.core.repository.LeaveRepository;
 import com.awayapp.core.service.mapper.LeaveMapper;
+import org.assertj.core.util.VisibleForTesting;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,16 +24,15 @@ import static java.time.temporal.ChronoUnit.DAYS;
 @Service
 public class LeaveService {
 
+    private static Logger logger = LoggerFactory.getLogger(LeaveService.class);
+
     private final LeaveRepository leaveRepository;
     private final LeaveMapper leaveMapper;
-    private final MaxVacationDaysValdidationService maxVacationDaysValdidationService;
 
     @Autowired
-    public LeaveService(final LeaveRepository leaveRepository, final LeaveMapper leaveMapper,
-                        final MaxVacationDaysValdidationService maxVacationDaysValdidationService) {
+    public LeaveService(final LeaveRepository leaveRepository, final LeaveMapper leaveMapper) {
         this.leaveRepository = leaveRepository;
         this.leaveMapper = leaveMapper;
-        this.maxVacationDaysValdidationService = maxVacationDaysValdidationService;
     }
 
     @Transactional
@@ -41,10 +43,6 @@ public class LeaveService {
             throw new RuntimeException("The end date of the leave must be at least equal to the start date!");
         }
 
-        if (!maxVacationDaysValdidationService.isLeavePossible(leaveDTO)) {
-            throw new RuntimeException("You don't have enough vacation days!");
-        }
-
         return leaveMapper.toDto(leaveRepository.save(leave));
     }
 
@@ -52,7 +50,9 @@ public class LeaveService {
         return leaveMapper.toDtos(leaveRepository.findAll());
     }
 
-    public Long getVacationDaysAllowedAt(final Instant start, final Employee employee) {
+    @VisibleForTesting
+    Long getVacationDaysAllowedAt(final Instant start, final Employee employee) {
+        logger.info("Getting MaxVacationDays Allowed for " + employee.getEmail());
         int year = ZonedDateTime.ofInstant(start, UTC).getYear();
         int daysInYear = Year.of(year).length();
 

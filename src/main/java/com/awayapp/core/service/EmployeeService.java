@@ -7,15 +7,10 @@ import com.awayapp.core.service.mapper.EmployeeMapper;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Instant;
-import java.time.Year;
-import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
-
-import static java.time.ZoneOffset.UTC;
-import static java.time.temporal.ChronoUnit.DAYS;
 
 @Service
 public class EmployeeService {
@@ -38,6 +33,7 @@ public class EmployeeService {
         return employeeMapper.toDtos(employeeRepository.findAll());
     }
 
+    @Transactional
     public EmployeeDTO saveEmployee(final EmployeeDTO dto) {
         Employee employee = employeeMapper.toEntity(dto);
 
