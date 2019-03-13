@@ -126,6 +126,67 @@ public class VacationDaysAllowedTest {
         assertEquals(Long.valueOf(21), vacationDaysAllowed);
     }
 
+
+    @Test
+    public void getVacationDaysAllowedAt_Sep10_hireDay115_3vacationsAlready_shouldReturn9() {
+        //given
+        Instant start = getInstantAt(2019, 9, 10);
+        Employee employee = getEmployee(2019, 4, 25, 30);
+
+        Leave leave2Days = new Leave();
+        Leave leave1Day = new Leave();
+
+        leave2Days.setEmployee(employee);
+        leave2Days.setType(LeaveType.VACATION);
+        leave2Days.setLeaveStart(Instant.parse("2019-06-01T00:00:00.00Z"));
+        leave2Days.setLeaveEnd(Instant.parse("2019-06-02T00:00:00.00Z"));
+
+        leave1Day.setEmployee(employee);
+        leave1Day.setType(LeaveType.VACATION);
+        leave1Day.setLeaveStart(Instant.parse("2019-06-15T00:00:00.00Z"));
+        leave1Day.setLeaveEnd(Instant.parse("2019-06-15T00:00:00.00Z"));
+
+        List<Leave> l = new ArrayList<>();
+        l.add(leave2Days);
+        l.add(leave1Day);
+
+        when(leaveRepository.findByEmployeeAndLeaveEndBefore(any(), any()))
+                .thenReturn(l); //Collections.emptyList()
+
+        //when
+        Long vacationDaysAllowed = leaveService.getVacationDaysAllowedAt(start, employee);
+
+        //then
+        assertEquals(Long.valueOf(9), vacationDaysAllowed);
+    }
+
+
+    @Test
+    public void getVacationDaysAllowedAt_Sep10_hireDay115_9vacationsAlready_shouldReturn0() {
+        //given
+        Instant start = getInstantAt(2019, 9, 10);
+        Employee employee = getEmployee(2019, 4, 25, 30);
+
+        Leave l1 = new Leave();
+
+        l1.setEmployee(employee);
+        l1.setType(LeaveType.VACATION);
+        l1.setLeaveStart(Instant.parse("2019-06-01T00:00:00.00Z"));
+        l1.setLeaveEnd(Instant.parse("2019-06-12T00:00:00.00Z"));
+
+        List<Leave> l = new ArrayList<>();
+        l.add(l1);
+
+        when(leaveRepository.findByEmployeeAndLeaveEndBefore(any(), any()))
+                .thenReturn(l); //Collections.emptyList()
+
+        //when
+        Long vacationDaysAllowed = leaveService.getVacationDaysAllowedAt(start, employee);
+
+        //then
+        assertEquals(Long.valueOf(0), vacationDaysAllowed);
+    }
+
     private Employee getEmployee(int hireYear, int hireMonth, int hireDay, int maxVacationDays) {
         Instant hireDate = getInstantAt(hireYear, hireMonth, hireDay);
         Employee employee = new Employee();
