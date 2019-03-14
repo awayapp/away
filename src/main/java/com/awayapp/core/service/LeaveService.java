@@ -3,6 +3,7 @@ package com.awayapp.core.service;
 import com.awayapp.core.controller.dto.LeaveDTO;
 import com.awayapp.core.domain.Employee;
 import com.awayapp.core.domain.Leave;
+import com.awayapp.core.exceptions.NotValidLeaveException;
 import com.awayapp.core.repository.LeaveRepository;
 import com.awayapp.core.service.mapper.LeaveMapper;
 import org.assertj.core.util.VisibleForTesting;
@@ -40,8 +41,13 @@ public class LeaveService {
         Leave leave = leaveMapper.toEntity(leaveDTO);
 
         if (!isValidStartEnd(leave)) {
-            throw new RuntimeException("The end date of the leave must be at least equal to the start date!");
+            //TODO add a test for this one also
+            //throw new RuntimeException("The end date of the leave must be at least equal to the start date!");
         }
+
+//        if(getVacationDaysAllowedAt(leave.getLeaveStart(), leave.getEmployee()) > ) {
+        // throw new NotEnoughVacationDaysException(leave.getLeaveStart(), leave.getEmployee());
+        //}
 
         return leaveMapper.toDto(leaveRepository.save(leave));
     }
@@ -79,8 +85,12 @@ public class LeaveService {
     }
 
 
-    private Boolean isValidStartEnd(Leave leave) {
-        return (!Duration.between(leave.getLeaveStart(), leave.getLeaveEnd()).isNegative());
+    Boolean isValidStartEnd(Leave leave) {
+        //return (!Duration.between(leave.getLeaveStart(), leave.getLeaveEnd()).isNegative());
+        if (leave.getLeaveEnd().isBefore(leave.getLeaveStart())) {
+            throw new NotValidLeaveException();
+        }
+        return Boolean.TRUE;
     }
 
 }

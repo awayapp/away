@@ -17,6 +17,8 @@ import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.awayapp.core.TestUtil.getEmployee;
+import static com.awayapp.core.TestUtil.getInstantAt;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -185,22 +187,5 @@ public class VacationDaysAllowedTest {
 
         //then
         assertEquals(Long.valueOf(0), vacationDaysAllowed);
-    }
-
-    private Employee getEmployee(int hireYear, int hireMonth, int hireDay, int maxVacationDays) {
-        Instant hireDate = getInstantAt(hireYear, hireMonth, hireDay);
-        Employee employee = new Employee();
-        employee.setHireDate(hireDate);
-        employee.setMaxVacationDays(maxVacationDays);
-        employee.setEmail("default@default.test");
-        return employee;
-    }
-
-    private Instant getInstantAt(int year, int month, int day) {
-        ZoneOffset offset = ZoneOffset.UTC;
-        return LocalDate
-                .of(year, month, day)
-                .atStartOfDay(offset)
-                .toInstant();
     }
 }
