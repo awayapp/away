@@ -3,6 +3,7 @@ package com.awayapp.core.service;
 import com.awayapp.core.controller.dto.LeaveDTO;
 import com.awayapp.core.domain.Employee;
 import com.awayapp.core.domain.Leave;
+import com.awayapp.core.exceptions.NotEnoughVacationDaysException;
 import com.awayapp.core.exceptions.NotValidLeaveException;
 import com.awayapp.core.repository.LeaveRepository;
 import com.awayapp.core.service.mapper.LeaveMapper;
@@ -13,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Duration;
 import java.time.Instant;
 import java.time.Year;
 import java.time.ZonedDateTime;
@@ -43,11 +43,12 @@ public class LeaveService {
         if (!isValidStartEnd(leave)) {
             //TODO add a test for this one also
             //throw new RuntimeException("The end date of the leave must be at least equal to the start date!");
+            throw new NotValidLeaveException();
         }
 
-//        if(getVacationDaysAllowedAt(leave.getLeaveStart(), leave.getEmployee()) > ) {
-        // throw new NotEnoughVacationDaysException(leave.getLeaveStart(), leave.getEmployee());
-        //}
+        if (getVacationDaysAllowedAt(leave.getLeaveStart(), leave.getEmployee()) < DAYS.between(leave.getLeaveStart(), leave.getLeaveEnd()) + 1) {
+            throw new NotEnoughVacationDaysException();
+        }
 
         return leaveMapper.toDto(leaveRepository.save(leave));
     }
@@ -88,7 +89,7 @@ public class LeaveService {
     Boolean isValidStartEnd(Leave leave) {
         //return (!Duration.between(leave.getLeaveStart(), leave.getLeaveEnd()).isNegative());
         if (leave.getLeaveEnd().isBefore(leave.getLeaveStart())) {
-            throw new NotValidLeaveException();
+            return Boolean.FALSE;
         }
         return Boolean.TRUE;
     }
